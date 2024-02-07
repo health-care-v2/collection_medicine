@@ -1,3 +1,12 @@
+debug: false
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    com.example: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -8,7 +17,23 @@ spring:
     password: ${LOCAL_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    hibernate:
-      ddl-auto: create
+    defer-datasource-initialization: true # 실제 데이터베이스와의 연결이 필요한 시점에서 초기화
+    hibernate.ddl-auto: create
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+  sql.init.mode: always
+
+
+open-api:
+  decoding-key: ${DECODING_KET}
+  url: ${API_URL}
+
+#초 단위
+scheduled:
+  initial-delay: 100
+  fixed-rate: 604800 # 1주일
+
+
+
