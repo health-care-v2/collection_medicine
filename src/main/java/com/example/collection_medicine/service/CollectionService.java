@@ -50,7 +50,7 @@ public class CollectionService {
 
     private URI createUrl(int pageNo) throws UnsupportedEncodingException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiUrl)
-                .queryParam("serviceKey", "asd")
+                .queryParam("serviceKey", decodingKey)
                 .queryParam("pageNo", pageNo)
                 .queryParam("type", "json");
 
