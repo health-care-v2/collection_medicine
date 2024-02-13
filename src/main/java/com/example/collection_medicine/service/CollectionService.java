@@ -1,7 +1,7 @@
 package com.example.collection_medicine.service;
 
 import com.example.collection_medicine.domain.Medicine;
-import com.example.collection_medicine.dto.MedicineResponse;
+import com.example.collection_medicine.dto.OpenApiMedicineResponse;
 import com.example.collection_medicine.repository.MedicineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -42,12 +41,12 @@ public class CollectionService {
             URI uri = createUrl(i + 1);
 
             try {
-                ResponseEntity<MedicineResponse> responseEntity = restTemplate.exchange(
-                        uri, HttpMethod.GET, null, MedicineResponse.class);
+                ResponseEntity<OpenApiMedicineResponse> responseEntity = restTemplate.exchange(
+                        uri, HttpMethod.GET, null, OpenApiMedicineResponse.class);
                 log.info("response header = {}", responseEntity.getBody().header());
                 log.info("response body = {}", responseEntity.getBody().body());
 
-                List<Medicine> entityList = MedicineResponse.toEntityList(responseEntity.getBody());
+                List<Medicine> entityList = OpenApiMedicineResponse.toEntityList(responseEntity.getBody());
                 medicineRepository.saveAll(entityList);
 
                 if (i == 0) {
