@@ -18,7 +18,7 @@ public class Medicine extends BaseEntity {
     private Long id;
 
     @Column(length = 4000) private String company; // 업체명
-    @Column(length = 4000) private String productName; // 제품명
+    @Column(length = 700) private String productName; // 제품명
     @Column(length = 400000000) private String efficacy; // 효능
     @Column(length = 400000000) private String useMethod; // 사용법
     @Column(length = 400000000) private String precautionsWarning; // 주의사항 경고
