@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(columnList = "productName")
+})
 @Entity
 public class Medicine extends BaseEntity {
 
