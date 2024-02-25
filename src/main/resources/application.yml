@@ -1,11 +1,5 @@
-debug: false
-management.endpoints.web.exposure.include: "*"
-
-logging:
-  level:
-    com.example: debug
-    org.springframework.web.servlet: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+server:
+  port: 8081
 
 spring:
   config:
@@ -17,7 +11,8 @@ spring:
     password: ${LOCAL_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    defer-datasource-initialization: true # 실제 데이터베이스와의 연결이 필요한 시점에서 초기화
+    open-in-view: false
+    defer-datasource-initialization: true
     hibernate.ddl-auto: create
     show-sql: true
     properties:
@@ -25,15 +20,19 @@ spring:
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
 
-
 open-api:
   decoding-key: ${DECODING_KET}
   url: ${API_URL}
 
 #초 단위
 scheduled:
-  initial-delay: 100
+  initial-delay: 10
   fixed-rate: 604800 # 1주일
+
+# 초 단위
+rest-template:
+  connect-timeout: 5
+  read-timeout: 5
 
 
 

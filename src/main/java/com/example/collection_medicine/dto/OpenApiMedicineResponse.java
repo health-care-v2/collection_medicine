@@ -4,8 +4,8 @@ import com.example.collection_medicine.domain.Medicine;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 public record OpenApiMedicineResponse(
@@ -14,24 +14,22 @@ public record OpenApiMedicineResponse(
 ) {
 
     public static List<Medicine> toEntityList(OpenApiMedicineResponse response) {
-        List<Medicine> entityList = new ArrayList<>();
-
-        for(Body.Item item : response.body().items) {
-            entityList.add(Medicine.of(
-                    item.entpName,
-                    item.itemName,
-                    item.efcyQesitm,
-                    item.useMethodQesitm,
-                    item.atpnWarnQesitm,
-                    item.atpnQesitm,
-                    item.intrcQesitm,
-                    item.seQesitm,
-                    item.depositMethodQesitm,
-                    item.itemImage
-            ));
-        }
-
-        return entityList;
+        return response.body.items.stream()
+                .map(item -> {
+                    return Medicine.of(
+                            item.entpName,
+                            item.itemName,
+                            item.efcyQesitm,
+                            item.useMethodQesitm,
+                            item.atpnWarnQesitm,
+                            item.atpnQesitm,
+                            item.intrcQesitm,
+                            item.seQesitm,
+                            item.depositMethodQesitm,
+                            item.itemImage
+                    );
+                })
+                .collect(Collectors.toList());
     }
 
     public record Header(String resultCode,
