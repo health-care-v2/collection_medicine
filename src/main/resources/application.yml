@@ -35,5 +35,10 @@ scheduled:
   initial-delay: 100
   fixed-rate: 604800 # 1주일
 
+# 초 단위
+rest-template:
+  connect-timeout: 5
+  read-timeout: 5
+
 
 
