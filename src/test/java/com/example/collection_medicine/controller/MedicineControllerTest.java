@@ -54,11 +54,12 @@ class MedicineControllerTest {
                 .andExpect(jsonPath("$.data.precautionWaring").value(res.getData().precautionWaring()))
                 .andExpect(jsonPath("$.data.caution").value(res.getData().caution()))
                 .andExpect(jsonPath("$.data.interaction").value(res.getData().interaction()))
-                .andExpect(jsonPath("$.data.sideEffect").value( res.getData().sideEffect()))
+                .andExpect(jsonPath("$.data.sideEffect").value(res.getData().sideEffect()))
                 .andExpect(jsonPath("$.data.storageMethod").value(res.getData().storageMethod()))
                 .andExpect(jsonPath("$.data.image").value(res.getData().image()))
                 .andExpect(jsonPath("$.message").value(res.getMessage()));
         then(medicineService).should().searchMedicine(eq(productName));
+        verify(medicineService, times(1)).searchMedicine(productName);
     }
 
     @DisplayName("약 정보 조회 - productName 과 함께 호출 : 서버 에러")
@@ -81,7 +82,7 @@ class MedicineControllerTest {
                 .andExpect(jsonPath("$.code").value(500))
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.message").value("서버 에러!"));
-        then(medicineService).should().searchMedicine(eq(productName));
+        verify(medicineService, times(1)).searchMedicine(productName);
     }
 
     private MedicineResponse createMedicineResponse() {
