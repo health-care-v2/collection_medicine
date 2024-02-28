@@ -17,7 +17,6 @@ public class CompareService {
             for (MedicineCompareDto dbDto : dbDtoList) {
                 if(apiDto.getKey().equals(dbDto.getKey())) {
                     exist = true;
-                    apiDto.setDmFlag(DmFlag.NONE);
                     checkUpdateColumn(apiDto, dbDto);
                     break;
                 }
