@@ -1,4 +1,4 @@
-package com.example.collection_medicine.service;
+package com.example.collection_medicine.service.collect;
 
 import com.example.collection_medicine.domain.Medicine;
 import com.example.collection_medicine.dto.MedicineCompareDto;
@@ -24,9 +24,9 @@ class CompareServiceTest {
         List<MedicineCompareDto> dbDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine1()));
         List<MedicineCompareDto> apiDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine1()));
 
-        sut.medicineCompare(dbDtoList, apiDtoList);
+        List<MedicineCompareDto> resDtoList = sut.medicineCompare(dbDtoList, apiDtoList);
 
-        assertThat(apiDtoList.get(0).getDmFlag()).isEqualTo(DmFlag.NONE);
+        assertThat(resDtoList).isEmpty();
     }
 
     @DisplayName("약 비교 - UPDATE")
@@ -35,9 +35,9 @@ class CompareServiceTest {
         List<MedicineCompareDto> dbDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine1()));
         List<MedicineCompareDto> apiDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine2()));
 
-        sut.medicineCompare(dbDtoList, apiDtoList);
+        List<MedicineCompareDto> resDtoList = sut.medicineCompare(dbDtoList, apiDtoList);
 
-        assertThat(apiDtoList.get(0).getDmFlag()).isEqualTo(DmFlag.UPDATE);
+        assertThat(resDtoList.get(0).getDmFlag()).isEqualTo(DmFlag.UPDATE);
     }
 
     @DisplayName("약 비교 - CREATE")
@@ -46,9 +46,9 @@ class CompareServiceTest {
         List<MedicineCompareDto> dbDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine1()));
         List<MedicineCompareDto> apiDtoList = Arrays.asList(MedicineCompareDto.from(createMedicine3()));
 
-        sut.medicineCompare(dbDtoList, apiDtoList);
+        List<MedicineCompareDto> resDtoList = sut.medicineCompare(dbDtoList, apiDtoList);
 
-        assertThat(apiDtoList.get(0).getDmFlag()).isEqualTo(DmFlag.CREATE);
+        assertThat(resDtoList.get(0).getDmFlag()).isEqualTo(DmFlag.CREATE);
     }
 
     private Medicine createMedicine1() {
