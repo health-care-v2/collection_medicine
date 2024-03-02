@@ -1,6 +1,7 @@
 package com.example.collection_medicine.service.collect;
 
 
+import com.example.collection_medicine.httpclient.MedicineRestTemplate;
 import com.example.collection_medicine.repository.MedicineCustomRepository;
 import com.example.collection_medicine.repository.MedicineRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ class CollectionServiceTest {
     @Mock private MedicineCustomRepository medicineCustomRepository;
     @Mock private MedicineRepository medicineRepository;
     @Mock private CompareService compareService;
-    @Mock private RestClientService restClientService;
+    @Mock private MedicineRestTemplate medicineRestTemplate;
 
     @DisplayName("CollectionMedicine - 테스트")
     @Test
@@ -30,7 +31,7 @@ class CollectionServiceTest {
         sut.collectMedicine();
 
         verify(medicineRepository, times(1)).findAll();
-        verify(restClientService, times(1)).fetchMedicinesFromApi();
+        verify(medicineRestTemplate, times(1)).getMedicines();
         verify(compareService, times(1)).medicineCompare(anyList(), anyList());
         verify(medicineCustomRepository, times(1)).bulkSave(anyList());
         verify(medicineCustomRepository, times(1)).bulkUpdate(anyList());

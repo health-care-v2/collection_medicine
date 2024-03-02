@@ -2,6 +2,7 @@ package com.example.collection_medicine.service.collect;
 
 import com.example.collection_medicine.domain.Medicine;
 import com.example.collection_medicine.dto.MedicineCompareDto;
+import com.example.collection_medicine.httpclient.MedicineRestTemplate;
 import com.example.collection_medicine.repository.MedicineCustomRepository;
 import com.example.collection_medicine.repository.MedicineRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,14 @@ public class CollectionService {
     private final MedicineCustomRepository medicineCustomRepository;
     private final MedicineRepository medicineRepository;
     private final CompareService compareService;
-    private final RestClientService restClientService;
+    private final MedicineRestTemplate medicineRestTemplate;
 
     @Scheduled(initialDelayString = "${scheduled.initial-delay}", fixedRateString = "${scheduled.fixed-rate}", timeUnit = TimeUnit.SECONDS)
     public void collectMedicine() {
         List<Medicine> dbMedicines = medicineRepository.findAll();
-        List<Medicine> apiMedicines = restClientService.fetchMedicinesFromApi();
+        List<Medicine> apiMedicines = medicineRestTemplate.getMedicines();
+
+        log.info("apiMedicines = {}", apiMedicines);
 
         List<MedicineCompareDto> dbMedicineDtoList = dbMedicines.stream()
                 .map(MedicineCompareDto::from)
