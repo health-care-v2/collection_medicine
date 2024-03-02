@@ -19,7 +19,7 @@ public class MedicineController {
     private final MedicineService medicineService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<MedicineResponse>> medicines(@RequestParam String productName) {
+    public ResponseEntity<ResponseDTO<MedicineResponse>> medicines(@RequestParam("productName") String productName) {
         return ResponseEntity.ok(ResponseDTO.okWithData(medicineService.searchMedicine(productName)));
     }
 

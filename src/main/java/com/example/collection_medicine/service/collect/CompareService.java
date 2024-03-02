@@ -1,23 +1,27 @@
-package com.example.collection_medicine.service;
+package com.example.collection_medicine.service.collect;
 
 import com.example.collection_medicine.dto.MedicineCompareDto;
 import com.example.collection_medicine.dto.constant.DmFlag;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CompareService {
 
-    public void medicineCompare(List<MedicineCompareDto> dbDtoList, List<MedicineCompareDto> apiDtoList) {
+    public List<MedicineCompareDto> medicineCompare(List<MedicineCompareDto> dbDtoList, List<MedicineCompareDto> apiDtoList) {
+        List<MedicineCompareDto> dtoList = new ArrayList<>();
+
         for (MedicineCompareDto apiDto : apiDtoList) {
             boolean exist = false;
 
             for (MedicineCompareDto dbDto : dbDtoList) {
                 if(apiDto.getKey().equals(dbDto.getKey())) {
                     exist = true;
-                    apiDto.setDmFlag(DmFlag.NONE);
                     checkUpdateColumn(apiDto, dbDto);
                     break;
                 }
@@ -26,7 +30,13 @@ public class CompareService {
             if(!exist) {
                 apiDto.setDmFlag(DmFlag.CREATE);
             }
+
+            if(apiDto.getDmFlag() != DmFlag.NONE) {
+                dtoList.add(apiDto);
+            }
         }
+
+        return dtoList;
     }
 
     private void checkUpdateColumn(MedicineCompareDto apiDto, MedicineCompareDto dbDto) {

@@ -1,4 +1,4 @@
-package com.example.collection_medicine.config;
+package com.example.collection_medicine.httpclient;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -9,15 +9,18 @@ import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
 
 @Configuration
-public class RestTemplateConfig {
+public class MedicineRestTemplateConfig {
     @Value("${rest-template.connect-timeout}") private int connectTimeout;
     @Value("${rest-template.read-timeout}") private int readTimeout;
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-        return restTemplateBuilder
+    public MedicineRestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        RestTemplate restTemplate = MedicineRestTemplateBuilder.get()
                 .setConnectTimeout(Duration.ofSeconds(connectTimeout))
                 .setReadTimeout(Duration.ofSeconds(readTimeout))
                 .build();
+
+        return new MedicineRestTemplate(restTemplate);
     }
+
 }
